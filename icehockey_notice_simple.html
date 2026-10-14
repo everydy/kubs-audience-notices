@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>KUBS 빙구 관객석 안내문 (심플형 / A4 가로)</title>
+  <style>
+@import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
+
+@page {
+  size: A4 landscape;
+  margin: 0;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+
+body {
+  font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+  background-color: #f3f4f6;
+  color: #000000;
+  word-break: keep-all;
+  line-height: 1.3;
+}
+
+.screen-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 30px;
+  padding: 30px 10px;
+}
+
+/* A4 가로 단일 시트 (297mm x 210mm) */
+.sheet {
+  width: 297mm;
+  height: 210mm;
+  background: #ffffff;
+  padding: 9mm 11mm;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12);
+  page-break-after: always;
+  page-break-inside: avoid;
+}
+
+@media print {
+  body {
+    background: transparent;
+  }
+  .screen-wrapper {
+    padding: 0;
+    gap: 0;
+  }
+  .sheet {
+    box-shadow: none;
+    margin: 0;
+    width: 297mm;
+    height: 210mm;
+    padding: 8mm 10mm;
+  }
+  .no-print {
+    display: none !important;
+  }
+}
+
+/* 외곽 테두리 프레임 */
+.outer-frame {
+  width: 100%;
+  height: 100%;
+  border: 5px solid #000000;
+  border-radius: 14px;
+  padding: 8mm 13mm;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  position: relative;
+  background: #ffffff;
+}
+
+.outer-frame.baseball-frame {
+  border-color: #b91c1c;
+}
+
+.outer-frame.icehockey-frame {
+  border-color: #b91c1c;
+}
+
+/* 상단 헤더 */
+.notice-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 2.5px solid #e5e7eb;
+  padding-bottom: 3.5mm;
+}
+
+.brand-org {
+  font-size: 19pt;
+  font-weight: 900;
+  color: #8a0000;
+  letter-spacing: -0.02em;
+}
+
+.brand-org.black {
+  color: #000000;
+}
+
+.badge-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 18px;
+  border-radius: 9999px;
+  font-size: 15pt;
+  font-weight: 900;
+  letter-spacing: -0.02em;
+}
+
+.badge-warning {
+  background-color: #fef2f2;
+  color: #b91c1c;
+  border: 2.5px solid #dc2626;
+}
+
+.badge-info {
+  background-color: #eff6ff;
+  color: #1d4ed8;
+  border: 2.5px solid #2563eb;
+}
+
+/* 본문 메인 영역 */
+.notice-body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 3mm 0;
+}
+
+.lead-phrase {
+  font-size: 32pt;
+  font-weight: 800;
+  color: #374151;
+  letter-spacing: -0.03em;
+  margin-bottom: 3mm;
+  line-height: 1.25;
+}
+
+/* 핵심 행동 강조: 78pt 극대화 */
+.core-phrase {
+  font-size: 78pt;
+  font-weight: 900;
+  letter-spacing: -0.04em;
+  line-height: 1.12;
+  margin-bottom: 5mm;
+}
+
+.core-phrase.red {
+  color: #dc2626;
+}
+
+.core-phrase.blue {
+  color: #1d4ed8;
+}
+
+.core-phrase.black {
+  color: #000000;
+}
+
+.underline-mark {
+  background: linear-gradient(to top, #fee2e2 42%, transparent 42%);
+  padding: 0 8px;
+}
+
+.underline-blue {
+  background: linear-gradient(to top, #dbeafe 42%, transparent 42%);
+  padding: 0 8px;
+}
+
+.underline-black {
+  text-decoration: underline;
+  text-underline-offset: 12px;
+  text-decoration-thickness: 5px;
+}
+
+/* 경고 / 안내 강조 박스 (가로폭 최적화) */
+.callout-box {
+  width: fit-content;
+  max-width: 200mm;
+  border-radius: 10px;
+  padding: 4mm 14mm;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin: 1mm auto 0 auto;
+}
+
+.callout-danger {
+  background-color: #fef2f2;
+  border: 3.5px solid #dc2626;
+  color: #991b1b;
+}
+
+.callout-navy {
+  background-color: #f8fafc;
+  border: 3.5px solid #1e3a8a;
+  color: #0f172a;
+}
+
+.callout-icon {
+  font-size: 28pt;
+  line-height: 1;
+}
+
+.callout-text {
+  font-size: 25pt;
+  font-weight: 900;
+  letter-spacing: -0.02em;
+}
+
+/* 하단 푸터 */
+.notice-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-top: 2.5px solid #e5e7eb;
+  padding-top: 3mm;
+}
+
+.footer-guide {
+  font-size: 12.5pt;
+  font-weight: 700;
+  color: #4b5563;
+}
+
+.footer-org {
+  font-size: 13.5pt;
+  font-weight: 900;
+  color: #111827;
+  letter-spacing: -0.02em;
+}
+
+/* =========================================
+   심플형 스타일 (핵심 행동 80pt 초대형 극대화)
+   ========================================= */
+.simple-body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 4mm 0;
+}
+
+.simple-lead {
+  font-size: 34pt;
+  font-weight: 800;
+  color: #374151;
+  letter-spacing: -0.03em;
+  line-height: 1.25;
+  margin-bottom: 4mm;
+}
+
+.simple-core {
+  font-size: 80pt;
+  font-weight: 900;
+  letter-spacing: -0.04em;
+  line-height: 1.1;
+  margin-bottom: 6mm;
+}
+
+.simple-warning {
+  font-size: 30pt;
+  font-weight: 900;
+  color: #dc2626;
+  letter-spacing: -0.03em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+</style>
+</head>
+<body>
+  <div class="screen-wrapper">
+    <div class="no-print" style="margin-bottom: 10px;">
+      <button onclick="window.print()" style="padding: 10px 24px; font-size: 16px; font-weight: 700; background: #000; color: white; border: none; border-radius: 8px; cursor: pointer;">🖨️ 인쇄하기 (A4 가로)</button>
+    </div>
+    
+    <!-- 빙구 안내문 (초대형 심플형 - 레드 통일) -->
+    <div class="sheet">
+      <div class="outer-frame">
+        <div class="notice-header" style="border-bottom: 2.5px solid #000000; justify-content: center;">
+          <span class="brand-org black" style="font-size: 16pt;">방송 중계 구역</span>
+        </div>
+
+        <div class="simple-body">
+          <div class="simple-lead">
+            중계로 인해 해당 좌석 대신
+          </div>
+          <div class="simple-core" style="font-size: 68pt; line-height: 1.15; margin-bottom: 6mm; white-space: nowrap;">
+            <span class="underline-black">다른 자리 이용 부탁드립니다.</span>
+          </div>
+          <div class="simple-warning">
+            <span>🎥</span> <span>중계 장비 운용 좌석으로 착석이 불가합니다.</span>
+          </div>
+        </div>
+
+        <div class="notice-footer" style="border-top: 2.5px solid #000000;">
+          <div class="footer-guide" style="color: #000000; font-size: 13pt;">
+            ※ 관객 여러분의 너른 양해와 협조를 부탁드립니다.
+          </div>
+          <div class="footer-org" style="font-size: 14pt;">
+            고려대학교 교육방송국 KUBS
+          </div>
+        </div>
+      </div>
+    </div>
+    
+  </div>
+</body>
+</html>
